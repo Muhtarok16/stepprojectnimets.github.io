@@ -433,15 +433,21 @@ showModalButton.addEventListener("click", (event) => {
 			});
 
 			generalClose.addEventListener("click", function (event) {
-				if (event.target !== modalBody && event.target !== document.querySelector(".modal__description") && event.target !== document.querySelector(".modal__body>img") && event.currentTarget === modal) {
-					console.log(event.currentTarget);
-					console.log(event.target);
+				const generalModalClose = event.target;
+				const generalCloseCard = generalModalClose.closest(".modal__body");
+				if (generalCloseCard) {
+					return false;
+				};
+				// if (event.target !== modalBody && event.target !== document.querySelector(".modal__description") && event.target !== document.querySelector(".modal__body>img") && event.currentTarget === modal) {
+				// 	console.log(event.currentTarget);
+				// 	console.log(event.target);
+
 				modalContainer.innerHTML = ""; //прибираю дітей створеного клона модального вікна
 				modalContainer.remove(); //видаляю вікно
 				targetButton.classList.remove("active"); //видаляю тег активної кнопки
 				enableScroll();
 				targetButtonTrainderCard.classList.remove("active-modal-card");
-				};
+				// };
 			}, true);
 		};
 
@@ -499,7 +505,7 @@ sortingSection.addEventListener("click", (event) => {
 	// обєкт, тип даних, sortButton key: value:id; обєкт-строка і назад, витягнути дата-атрибут. переганяти в обєкт . с фільтрамі теж саме, до строки,її в обєкт, переганяєте,і назад в обєкт, перевіряю локалСторейдж, дивлюся баттон айді навішую клас активу заново
 	localStorage.setItem("sortedSafe", sortTargetButtonTrainderCard.dataset.sortButtonId);
 	// const filteredTrainers = filterDataSpecialization(filterItem.value, DATA);
-	const sortedData = sortData(sortTargetButtonTrainderCard.dataset.sortButtonId, filteredData1);
+	const sortedData = sortData(sortTargetButtonTrainderCard.dataset.sortButtonId, JSON.parse(localStorage.getItem("filteredSafe")));
 	renderCard(sortedData);
 });
 
@@ -507,11 +513,12 @@ document.addEventListener("DOMContentLoaded", () => { //функція для о
     function saveFilters () {
 		// const savedSortingButton = document.querySelector(".sorting__btn");
 
-		// localStorage.getItem("filteredSafe");
-		// console.log(localStorage.getItem("filteredSafe"));
-		// let filteredDataJSONParsed = JSON.parse(localStorage.getItem("filteredSafe"));
-		// console.log(filteredDataJSONParsed);
-		// console.log(filteredDataJSONParsed);
+		localStorage.getItem("filteredSafe");
+		console.log(localStorage.getItem("filteredSafe"));
+		let filteredDataJSONParsed = JSON.parse(localStorage.getItem("filteredSafe"));
+		localStorage.getItem("filteredSafeDirection");
+		console.log(filteredDataJSONParsed);
+		console.log(filteredDataJSONParsed);
 
 
 		sortButton.forEach((sortElem) => {
@@ -521,7 +528,7 @@ document.addEventListener("DOMContentLoaded", () => { //функція для о
 			};
 		});
 
-		const sortedDataSaved = sortData(localStorage.getItem("sortedSafe"), filteredData1);
+		const sortedDataSaved = sortData(localStorage.getItem("sortedSafe"), filteredDataJSONParsed);
 		renderCard(sortedDataSaved);
     //renderCard(localStorage.getItem("sortedSafe"));
     };
